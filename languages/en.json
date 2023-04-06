@@ -4,6 +4,7 @@
 			"fontAdded": "Font has been loaded. If newly created drawing doesn't display it, try moving it, or changing to other scene and back.",
 			"connectionError": "Fonts from Google Fonts cannot be loaded since there is an issue with the network connection: {error}",
 			"invalidDirectory": "The configuration for the font directory is currently invalid and fonts could not be loaded: {error}",
+			"invalidFilePickerTarget": "The FilePicker response does not correspond to the target.",
 			"missingFont": {
 				"message": "Missing font {font} is currently being used in {context}.",
 				"context": {

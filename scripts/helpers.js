@@ -16,14 +16,13 @@ export async function recursiveFontFileBrowse(directory, l = 0) {
 	let res = {};
 	try {
 		res = await FilePicker.browse(source, directory);
+		// Check if directory matches returned target or is included in files
+		if (res?.target !== directory && !res?.files?.includes(directory)) {
+			invalidDirectoryNotification(game.i18n.format("custom-fonts.notifications.invalidFilePickerTarget"));
+			return [];
+		}
 	} catch (err) {
-		doOnceReady(() => {
-			const message = `${CustomFonts.ID} | ${game.i18n.format("custom-fonts.notifications.invalidDirectory", {
-				error: err,
-			})}`;
-			ui.notifications.warn(message);
-			console.warn(message);
-		});
+		invalidDirectoryNotification(err);
 	}
 	const files = res?.files
 		// Only use files with valid file extensions
