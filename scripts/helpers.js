@@ -9,8 +9,8 @@ export async function recursiveFontFileBrowse(directory, l = 0) {
 	// Break if recursion limit has been reached
 	if (l >= 50) return [];
 
-	// Get the correct source
-	const source = directory.startsWith(globalThis?.ForgeVTT?.ASSETS_LIBRARY_URL_PREFIX) ? "forgevtt" : "data";
+	// Get the correct source. ForgeVTT may be defined in globalThis or window
+	const source = directory.startsWith(globalThis?.ForgeVTT?.ASSETS_LIBRARY_URL_PREFIX || ForgeVTT?.ASSETS_LIBRARY_URL_PREFIX ) ? "forgevtt" : "data";
 
 	// Try to get the files in that directory and source
 	let res = {};
@@ -54,4 +54,17 @@ export function doOnceReady(callback) {
 	} else {
 		Hooks.once("ready", callback);
 	}
+}
+
+/** Send an invalid directory message
+ * @param msg The message to send
+ */
+function invalidDirectoryNotification(msg) {
+	doOnceReady(() => {
+		const message = `${CustomFonts.ID} | ${game.i18n.format("custom-fonts.notifications.invalidDirectory", {
+			error: msg,
+		})}`;
+		ui.notifications.warn(message);
+		console.warn(message);
+	});
 }
